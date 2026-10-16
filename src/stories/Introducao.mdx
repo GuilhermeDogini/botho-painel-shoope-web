@@ -1,0 +1,34 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introdução" />
+
+# Botho · design system
+
+Storybook do painel Botho Brasil. Aqui você revisa cada peça **sem abrir o app** e **sem API**.
+
+## Como usar
+
+1. Rode `npm run storybook` na pasta `web/` (porta **6006**).
+2. Escolha a pasta **Atoms**, **Molecules**, **Organisms** ou **Templates** na lateral.
+3. Use a toolbar **Tema** (sol/lua) para claro e escuro — a mesma regra do painel (classe `.dark` no `html`).
+4. Em cada story: leia a aba **Docs** (o que faz + como testar) e brinque com os **Controls**.
+
+## Ordem de revisão
+
+| Camada | Status | Onde |
+|---|---|---|
+| **Atoms** | prontos (SHP-42 a 47) — stories com mocks | pasta Atoms |
+| **Molecules** | SHP-48–55 prontos (camada fechada) | pasta Molecules |
+| **Organisms** | SHP-56–58 prontos; 59–60 a fazer | pasta Organisms |
+| **Templates** | a fazer | pasta Templates (só a intro) |
+
+Mocks compartilhados: `src/stories/mocks.ts` (peças, pedidos, equipe, cores, carteira).
+
+## Regras que valem no código e aqui
+
+- Componente de UI **só recebe props** (não busca dados).
+- Status **nunca só por cor** (texto + ícone).
+- Alvo de toque ≥ **44 px**.
+- Conferir a **390 px** (celular) e a **1440 px** (desktop): redimensione a janela do Storybook ou use o viewport do navegador.
+
+A Vitrine do app (`/vitrine`, só em dev) continua existindo; o Storybook é o lugar principal para **revisar** cada peça isolada.

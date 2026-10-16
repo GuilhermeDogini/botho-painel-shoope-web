@@ -1,0 +1,37 @@
+// Chaves do react-query num lugar só: invalidar "products" depois de salvar acerta todas as telas que usam.
+export const keys = {
+  me: ['me'] as const,
+  connection: ['connection'] as const,
+  sync: ['sync'] as const,
+  inicio: ['inicio'] as const,
+  products: ['products'] as const,
+  product: (itemId: number | null) => ['products', 'detail', itemId] as const,
+  estoque: ['estoque'] as const,
+  boost: ['boost'] as const,
+  boostAuto: ['boost', 'auto'] as const,
+  boostDay: ['boost', 'day'] as const,
+  boostSuggestions: ['boost', 'suggestions'] as const,
+  adsCredit: ['ads', 'credit'] as const,
+  adsCampaigns: (filter: string, periodDays: number) =>
+    ['ads', 'campaigns', filter, periodDays] as const,
+  adsCampaign: (id: string, periodDays?: number) =>
+    ['ads', 'campaign', id, periodDays ?? 30] as const,
+  financeiroResumo: (period: string, from?: string, to?: string) =>
+    ['financeiro', 'resumo', period, from ?? '', to ?? ''] as const,
+  financeiroAReceber: ['financeiro', 'a-receber'] as const,
+  financeiroExtrato: (q: unknown) => ['financeiro', 'extrato', q] as const,
+  chat: (filter: string, q: string) => ['chat', filter, q] as const,
+  chatThread: (id: string | null) => ['chat', 'thread', id] as const,
+  chatReplies: ['chat', 'replies'] as const,
+  shopProfile: ['config', 'loja'] as const,
+  notificationPrefs: ['config', 'notifications'] as const,
+  categories: ['catalog', 'categories'] as const,
+  attributes: (categoryId: number | null) => ['catalog', 'attributes', categoryId] as const,
+  brands: (categoryId: number | null) => ['catalog', 'brands', categoryId] as const,
+  logistics: ['catalog', 'logistics'] as const,
+  teamMembers: ['team', 'members'] as const,
+  teamInvites: ['team', 'invites'] as const,
+  orders: (q: unknown) => ['orders', q] as const,
+  order: (orderSn: string) => ['orders', 'detail', orderSn] as const,
+  cancelReasons: ['orders', 'cancel-reasons'] as const,
+};

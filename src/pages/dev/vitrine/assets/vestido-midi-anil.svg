@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="600" height="800">
+<defs>
+<pattern id="fl" width="34" height="34" patternUnits="userSpaceOnUse">
+<rect width="34" height="34" fill="#2F4A9A"/>
+<g fill="#F2B8C9"><circle cx="9" cy="6" r="3.2"/><circle cx="13" cy="10" r="3.2"/><circle cx="9" cy="14" r="3.2"/><circle cx="5" cy="10" r="3.2"/></g>
+<circle cx="9" cy="10" r="2" fill="#E7B54A"/>
+<g fill="#FAF5EE"><circle cx="26" cy="23" r="2.4"/><circle cx="29" cy="26" r="2.4"/><circle cx="26" cy="29" r="2.4"/><circle cx="23" cy="26" r="2.4"/></g>
+<circle cx="26" cy="26" r="1.4" fill="#B3134F"/>
+<path d="M18 4 q4 4 0 8" stroke="#7FA287" stroke-width="1.6" fill="none"/>
+<path d="M30 10 q-3 4 1 7" stroke="#7FA287" stroke-width="1.6" fill="none"/>
+</pattern>
+<linearGradient id="sh" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".18"/><stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+</defs>
+<rect width="300" height="400" fill="#EFE3D6"/>
+<rect y="330" width="300" height="70" fill="#E4D4C3"/>
+<ellipse cx="150" cy="372" rx="100" ry="10" fill="#000" opacity=".08"/>
+<path d="M150 18 q0 -10 8 -10 q8 0 8 8 q0 6 -8 10 l-8 6" stroke="#8A7563" stroke-width="3" fill="none"/>
+<path d="M150 32 L96 56 L204 56 Z" fill="none" stroke="#8A7563" stroke-width="3"/>
+<path d="M118 52 L134 52 Q150 78 166 52 L182 52 L188 138 Q190 148 198 156 L248 356 Q150 384 52 356 L102 156 Q110 148 112 138 Z" fill="url(#fl)"/>
+<path d="M118 52 L134 52 Q150 78 166 52 L182 52 L188 138 Q190 148 198 156 L248 356 Q150 384 52 356 L102 156 Q110 148 112 138 Z" fill="url(#sh)"/>
+<path d="M110 146 Q150 156 190 146" stroke="#1E2F66" stroke-width="5" fill="none"/>
+<path d="M126 170 L112 350 M174 170 L188 350 M150 170 L150 360" stroke="#000" stroke-opacity=".08" stroke-width="2"/>
+</svg>

@@ -1,0 +1,664 @@
+/* =====================================================================
+   Botho Brasil Â· Painel â€” tema para React + Tailwind 4
+   Proposta de identidade (nÃ£o Ã© a marca oficial da loja).
+   CÃ³pia de design/opcao-a/botho-theme.css, completada com o que estÃ¡ em DesignSystem.dc.html.
+   DiferenÃ§as: nomes das fontes do @fontsource; --bt-danger-ink; cores fixas da etiqueta de gola
+   (--bt-gola*); tag com cor por tipo (--tag-bg/--tag-fg) e anel no furinho; utilitÃ¡rios skel e sew.
+   Uso: importe este arquivo no CSS de entrada no lugar de @import "tailwindcss".
+   Tema escuro: coloque a classe .dark no <html>.
+   Fontes (Google Fonts):
+   https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400..800&display=swap
+   Ãcones: lucide-react, strokeWidth={1.75}
+   ===================================================================== */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- tokens brutos (claro) ---------- */
+:root {
+  /* superfÃ­cies Â· algodÃ£o cru */
+  --bt-bg: #FAF5EE;
+  --bt-bg-2: #F3EBDF;
+  --bt-surface: #FFFDF9;
+  --bt-surface-2: #F6EFE5;
+  --bt-surface-3: #EFE5D7;
+  --bt-line: #E7DCCD;
+  --bt-line-2: #D5C5B0;
+
+  /* texto */
+  --bt-ink: #2B1F1D;
+  --bt-ink-2: #55453E;
+  --bt-muted: #73625A;
+  /* overlay de modal/sheet — sempre escuro (não usa --bt-ink, que no .dark é creme) */
+  --bt-scrim: rgba(32, 16, 12, 0.48);
+
+  /* destaque Â· framboesa */
+  --bt-brand: #B3134F;
+  --bt-brand-hover: #931040;
+  --bt-brand-ink: #FFFFFF;
+  --bt-brand-soft: #FBE4EC;
+  --bt-brand-text: #A1104A;
+
+  /* carretÃ©is */
+  --bt-mostarda: #C8901A;
+  --bt-mostarda-soft: #FAEDCB;
+  --bt-mostarda-text: #7A5000;
+  --bt-anil: #2F4A9A;
+  --bt-anil-soft: #E3E8F6;
+  --bt-anil-text: #2B4590;
+  --bt-salvia: #5E7F64;
+  --bt-salvia-soft: #E2ECDF;
+  --bt-salvia-text: #3A5C42;
+  --bt-danger: #B42318;
+  --bt-danger-soft: #FCE5E0;
+  --bt-danger-text: #9F1F15;
+  --bt-danger-ink: #FFFFFF;
+
+  --bt-focus: #2F4A9A;
+
+  /* sombras quentes */
+  --bt-shadow-1: 0 1px 2px rgba(70, 35, 25, .06), 0 1px 1px rgba(70, 35, 25, .04);
+  --bt-shadow-2: 0 8px 24px -10px rgba(70, 35, 25, .22);
+  --bt-shadow-3: 0 24px 60px -16px rgba(70, 35, 25, .38);
+
+  /* marca: a etiqueta de gola Ã© igual nos dois temas (nÃ£o muda no .dark) */
+  --bt-gola: #B3134F;
+  --bt-gola-ink: #FFF4EA;
+  --bt-gola-cream: #FBF6EC;
+
+  /* tecido do login (estampa framboesa / noite) */
+  --bt-tecido: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiIgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2Ij4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiBmaWxsPSIjQTMxMjRBIi8+CjxnIGZpbGw9IiNCOTI5NUYiPjxlbGxpcHNlIGN4PSIyNCIgY3k9IjE1IiByeD0iNSIgcnk9IjgiLz48ZWxsaXBzZSBjeD0iMjQiIGN5PSIzMyIgcng9IjUiIHJ5PSI4Ii8+PGVsbGlwc2UgY3g9IjE1IiBjeT0iMjQiIHJ4PSI4IiByeT0iNSIvPjxlbGxpcHNlIGN4PSIzMyIgY3k9IjI0IiByeD0iOCIgcnk9IjUiLz48L2c+CjxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjQiIGZpbGw9IiNDOTg5NEEiLz4KPGcgZmlsbD0iI0I5Mjk1RiI+PGVsbGlwc2UgY3g9IjcyIiBjeT0iNjMiIHJ4PSI1IiByeT0iOCIvPjxlbGxpcHNlIGN4PSI3MiIgY3k9IjgxIiByeD0iNSIgcnk9IjgiLz48ZWxsaXBzZSBjeD0iNjMiIGN5PSI3MiIgcng9IjgiIHJ5PSI1Ii8+PGVsbGlwc2UgY3g9IjgxIiBjeT0iNzIiIHJ4PSI4IiByeT0iNSIvPjwvZz4KPGNpcmNsZSBjeD0iNzIiIGN5PSI3MiIgcj0iNCIgZmlsbD0iI0M5ODk0QSIvPgo8ZyBmaWxsPSIjQzk4OTRBIiBvcGFjaXR5PSIuNyI+PHBhdGggZD0iTTcyIDE4IGw1IDYgbC01IDYgbC01IC02IFoiLz48cGF0aCBkPSJNMjQgNjYgbDUgNiBsLTUgNiBsLTUgLTYgWiIvPjwvZz4KPGcgZmlsbD0iI0I5Mjk1RiI+PGNpcmNsZSBjeD0iNDgiIGN5PSI0OCIgcj0iMiIvPjxjaXJjbGUgY3g9IjAiIGN5PSI0OCIgcj0iMiIvPjxjaXJjbGUgY3g9Ijk2IiBjeT0iNDgiIHI9IjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9IjAiIHI9IjIiLz48Y2lyY2xlIGN4PSI0OCIgY3k9Ijk2IiByPSIyIi8+PC9nPgo8L3N2Zz4K);
+  --bt-auth-fabric: #A3124A;
+  --bt-molde: #FBF6EC;
+  --bt-molde-ink: #2B1F1D;
+  --bt-molde-dot: rgba(120, 90, 60, .16);
+  --bt-molde-meta: rgba(120, 90, 60, .75);
+  --bt-logo-fabric-petal: #FFF4EA;
+  --bt-logo-fabric-center: #E2AE45;
+}
+
+/* ---------- tokens brutos (escuro) ---------- */
+.dark {
+  --bt-bg: #181211;
+  --bt-bg-2: #1E1716;
+  --bt-surface: #221A18;
+  --bt-surface-2: #2B211F;
+  --bt-surface-3: #352A27;
+  --bt-line: #3B2F2B;
+  --bt-line-2: #54443E;
+
+  --bt-ink: #F6EEE6;
+  --bt-ink-2: #D6C7BB;
+  --bt-muted: #AC9C91;
+  --bt-scrim: rgba(0, 0, 0, 0.62);
+
+  --bt-brand: #F0749D;
+  --bt-brand-hover: #F592B3;
+  --bt-brand-ink: #2A0814;
+  --bt-brand-soft: #3C1826;
+  --bt-brand-text: #F7A3BF;
+
+  --bt-mostarda: #E2AE45;
+  --bt-mostarda-soft: #3A2D12;
+  --bt-mostarda-text: #F2CA75;
+  --bt-anil: #8FA6EA;
+  --bt-anil-soft: #1E2643;
+  --bt-anil-text: #AFC0F3;
+  --bt-salvia: #8DB394;
+  --bt-salvia-soft: #1E2C22;
+  --bt-salvia-text: #AACFB2;
+  --bt-danger: #F08672;
+  --bt-danger-soft: #3E1A14;
+  --bt-danger-text: #F7AC9C;
+  --bt-danger-ink: #2A0A05;
+
+  --bt-focus: #AFC0F3;
+
+  --bt-shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+  --bt-shadow-2: 0 10px 28px -10px rgba(0, 0, 0, .6);
+  --bt-shadow-3: 0 24px 60px -16px rgba(0, 0, 0, .75);
+
+  --bt-tecido: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NiA5NiIgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2Ij4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiBmaWxsPSIjMjIxQTE5Ii8+CjxnIGZpbGw9IiMzQTIzMjkiPjxlbGxpcHNlIGN4PSIyNCIgY3k9IjE1IiByeD0iNSIgcnk9IjgiLz48ZWxsaXBzZSBjeD0iMjQiIGN5PSIzMyIgcng9IjUiIHJ5PSI4Ii8+PGVsbGlwc2UgY3g9IjE1IiBjeT0iMjQiIHJ4PSI4IiByeT0iNSIvPjxlbGxpcHNlIGN4PSIzMyIgY3k9IjI0IiByeD0iOCIgcnk9IjUiLz48L2c+CjxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjQiIGZpbGw9IiM0QTNCMjIiLz4KPGcgZmlsbD0iIzNBMjMyOSI+PGVsbGlwc2UgY3g9IjcyIiBjeT0iNjMiIHJ4PSI1IiByeT0iOCIvPjxlbGxpcHNlIGN4PSI3MiIgY3k9IjgxIiByeD0iNSIgcnk9IjgiLz48ZWxsaXBzZSBjeD0iNjMiIGN5PSI3MiIgcng9IjgiIHJ5PSI1Ii8+PGVsbGlwc2UgY3g9IjgxIiBjeT0iNzIiIHJ4PSI4IiByeT0iNSIvPjwvZz4KPGNpcmNsZSBjeD0iNzIiIGN5PSI3MiIgcj0iNCIgZmlsbD0iIzRBM0IyMiIvPgo8ZyBmaWxsPSIjNEEzQjIyIj48cGF0aCBkPSJNNzIgMTggbDUgNiBsLTUgNiBsLTUgLTYgWiIvPjxwYXRoIGQ9Ik0yNCA2NiBsNSA2IGwtNSA2IGwtNSAtNiBaIi8+PC9nPgo8ZyBmaWxsPSIjM0EyMzI5Ij48Y2lyY2xlIGN4PSI0OCIgY3k9IjQ4IiByPSIyIi8+PGNpcmNsZSBjeD0iMCIgY3k9IjQ4IiByPSIyIi8+PGNpcmNsZSBjeD0iOTYiIGN5PSI0OCIgcj0iMiIvPjxjaXJjbGUgY3g9IjQ4IiBjeT0iMCIgcj0iMiIvPjxjaXJjbGUgY3g9IjQ4IiBjeT0iOTYiIHI9IjIiLz48L2c+Cjwvc3ZnPgo=);
+  --bt-auth-fabric: #221A19;
+  --bt-molde: #2A211F;
+  --bt-molde-ink: #F6EEE6;
+  --bt-molde-dot: rgba(246, 238, 230, .07);
+  --bt-molde-meta: rgba(246, 238, 230, .45);
+}
+
+/* ---------- mapeamento para utilitÃ¡rios do Tailwind ---------- */
+@theme inline {
+  --color-bg: var(--bt-bg);
+  --color-bg-2: var(--bt-bg-2);
+  --color-surface: var(--bt-surface);
+  --color-surface-2: var(--bt-surface-2);
+  --color-surface-3: var(--bt-surface-3);
+  --color-line: var(--bt-line);
+  --color-line-2: var(--bt-line-2);
+  --color-ink: var(--bt-ink);
+  --color-ink-2: var(--bt-ink-2);
+  --color-muted: var(--bt-muted);
+
+  --color-brand: var(--bt-brand);
+  --color-brand-hover: var(--bt-brand-hover);
+  --color-brand-ink: var(--bt-brand-ink);
+  --color-brand-soft: var(--bt-brand-soft);
+  --color-brand-text: var(--bt-brand-text);
+
+  --color-mostarda: var(--bt-mostarda);
+  --color-mostarda-soft: var(--bt-mostarda-soft);
+  --color-mostarda-text: var(--bt-mostarda-text);
+  --color-anil: var(--bt-anil);
+  --color-anil-soft: var(--bt-anil-soft);
+  --color-anil-text: var(--bt-anil-text);
+  --color-salvia: var(--bt-salvia);
+  --color-salvia-soft: var(--bt-salvia-soft);
+  --color-salvia-text: var(--bt-salvia-text);
+  --color-danger: var(--bt-danger);
+  --color-danger-soft: var(--bt-danger-soft);
+  --color-danger-text: var(--bt-danger-text);
+  --color-danger-ink: var(--bt-danger-ink);
+  --color-focus: var(--bt-focus);
+  --color-gola: var(--bt-gola);
+  --color-gola-ink: var(--bt-gola-ink);
+  --color-gola-cream: var(--bt-gola-cream);
+
+  --shadow-1: var(--bt-shadow-1);
+  --shadow-2: var(--bt-shadow-2);
+  --shadow-3: var(--bt-shadow-3);
+}
+
+@theme {
+  /* Fontes servidas pelo prÃ³prio app (@fontsource, nomes "â€¦ Variable"); os nomes do Google ficam de reserva. */
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", "Hanken Grotesk Variable", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* escala de texto (tamanho / altura de linha) */
+  --text-xs: 12px;     --text-xs--line-height: 1.35;
+  --text-sm: 13px;     --text-sm--line-height: 1.4;
+  --text-base: 15px;   --text-base--line-height: 1.45;
+  --text-h3: 17px;     --text-h3--line-height: 1.3;
+  --text-h2: 22px;     --text-h2--line-height: 1.2;
+  --text-h1: 30px;     --text-h1--line-height: 1.1;
+  --text-big: 44px;    --text-big--line-height: 1;
+  --text-xl: 64px;     --text-xl--line-height: .95;
+
+  /* raios */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* espaÃ§amento base 4 px (p-1 = 4px, p-4 = 16px â€¦) */
+  --spacing: 4px;
+
+  /* alvo de toque mÃ­nimo */
+  --size-touch: 44px;
+}
+
+/* ---------- base ---------- */
+@layer base {
+  html { background: var(--bt-bg); color: var(--bt-ink); font-family: var(--font-sans); font-size: 15px; -webkit-font-smoothing: antialiased; }
+  :focus-visible { outline: 2.5px solid var(--bt-focus); outline-offset: 2px; }
+  h1, h2, .font-display { font-family: var(--font-display); letter-spacing: -.02em; }
+}
+
+/* ---------- utilitÃ¡rios da Botho ---------- */
+@utility money {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* pesponto: borda tracejada fina â€” sÃ³ em cards de destaque, seleÃ§Ã£o e Ã¡reas de soltar foto */
+@utility stitch {
+  outline: 1.5px dashed color-mix(in srgb, var(--bt-brand) 55%, transparent);
+  outline-offset: -7px;
+}
+
+/* badge em formato de etiqueta de roupa (furinho Ã  esquerda) */
+@utility tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px 0 19px;
+  font: 700 12px/1 var(--font-sans);
+  letter-spacing: .01em;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  /* cor por tipo: --tag-bg e --tag-fg (o componente Tag define os tons) */
+  background: var(--tag-bg, var(--bt-surface-3));
+  color: var(--tag-fg, var(--bt-ink-2));
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 8px 100%, 0 50%);
+  border-radius: 0 5px 5px 0;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px; top: 50%;
+    width: 6px; height: 6px; margin-top: -3px;
+    border-radius: 50%;
+    background: var(--bt-surface);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--tag-fg, var(--bt-ink-2)) 55%, transparent);
+  }
+}
+
+/* fita mÃ©trica (progresso / metas) â€” filho com width % e background: var(--tape-fill) */
+@utility tape {
+  position: relative;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bt-mostarda-soft);
+  border: 1px solid color-mix(in srgb, var(--bt-mostarda) 50%, transparent);
+  --tape-fill: var(--bt-brand);
+  &::after {
+    content: "";
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(90deg, color-mix(in srgb, var(--bt-ink) 45%, transparent) 0 1px, transparent 1px 8px) left bottom / 100% 6px no-repeat,
+      repeating-linear-gradient(90deg, color-mix(in srgb, var(--bt-ink) 45%, transparent) 0 1.5px, transparent 1.5px 40px) left bottom / 100% 12px no-repeat;
+  }
+}
+
+/* esqueleto de carregamento (Estados.dc.html) */
+@utility skel {
+  background: linear-gradient(90deg, var(--bt-surface-2) 0, var(--bt-surface-3) 40%, var(--bt-surface-2) 80%);
+  background-size: 300% 100%;
+  border-radius: 8px;
+  animation: bt-skel 1.4s ease-in-out infinite;
+}
+@keyframes bt-skel {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* linha "costurando" (carregando): pesponto que corre da esquerda para a direita */
+@utility sew {
+  display: block;
+  flex-shrink: 0;
+  position: relative;
+  height: 3px;
+  width: 120px;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, var(--bt-brand) 0 8px, transparent 8px 13px);
+    animation: bt-sew 1.2s cubic-bezier(.5, 0, .3, 1) infinite;
+  }
+}
+@keyframes bt-sew {
+  0% { clip-path: inset(0 100% 0 0); }
+  70% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+/* entrada do toast (DesignSystem Â· toastin) */
+@utility bt-toast-in {
+  animation: bt-toastin 0.3s ease-out;
+}
+@keyframes bt-toastin {
+  from { transform: translateY(-8px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+/* Ã­cone do item ativo (NavItem bottom, passo atual do StepIndicator): â€œpopâ€ ao ganhar o destaque */
+@keyframes bt-nav-pop {
+  0% { transform: scale(.82); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Modal / BottomSheet (entrada; saÃ­da fica a cargo do Radix desmontar) */
+@keyframes bt-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* SÃ³ opacity + translateY/scale: o centro do Modal Ã© por inset+margin, nÃ£o por transform. */
+@keyframes bt-modal-in {
+  from { opacity: 0; transform: translateY(10px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bt-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes bt-bulk-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ilustraÃ§Ãµes de costura (EmptyState): ~2 s de movimento e ~3 s de descanso, todas no mesmo ciclo de 5 s */
+.ill-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: bt-ill-sway 5s ease-in-out infinite;
+}
+.ill-sway-late { animation-delay: .35s; }
+@keyframes bt-ill-sway {
+  0%, 46%, 100% { transform: rotate(0); }
+  8% { transform: rotate(7deg); }
+  18% { transform: rotate(-5deg); }
+  28% { transform: rotate(3deg); }
+  38% { transform: rotate(-1.5deg); }
+}
+
+/* tracejado com perÃ­odo 9 (5 4 / 4.5 4.5): anda 3 perÃ­odos e para, sem salto no recomeÃ§o */
+.ill-thread { animation: bt-ill-thread 5s ease-in-out infinite; }
+@keyframes bt-ill-thread {
+  0% { stroke-dashoffset: 0; }
+  46%, 100% { stroke-dashoffset: -27; }
+}
+
+/* voltas de linha no carretel: descem 2 espaÃ§amentos (12) = carretel girando */
+.ill-spool { animation: bt-ill-spool 5s ease-in-out infinite; }
+@keyframes bt-ill-spool {
+  0% { transform: translateY(0); }
+  46%, 100% { transform: translateY(24px); }
+}
+
+/* tesoura: lÃ¢minas giram em torno do eixo (45.5, 41 no viewBox) e cortam duas vezes */
+.ill-snip-a,
+.ill-snip-b {
+  transform-box: view-box;
+  transform-origin: 45.5px 41px;
+  animation: 5s ease-in-out infinite;
+}
+.ill-snip-a { animation-name: bt-ill-snip-a; }
+.ill-snip-b { animation-name: bt-ill-snip-b; }
+@keyframes bt-ill-snip-a {
+  0%, 20%, 46%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(-14deg); }
+}
+@keyframes bt-ill-snip-b {
+  0%, 20%, 46%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(14deg); }
+}
+
+/* agulha: entra e sai do tecido duas vezes */
+.ill-needle { animation: bt-ill-needle 5s ease-in-out infinite; }
+@keyframes bt-ill-needle {
+  0%, 20%, 46%, 100% { transform: translate(0, 0); }
+  10%, 30% { transform: translate(-3px, 6px); }
+}
+
+/* ---------- AuthLayout (login / senha / convite) ---------- */
+.bt-auth-bg {
+  background-color: var(--bt-auth-fabric);
+  background-image: var(--bt-tecido);
+  background-size: 96px 96px;
+}
+.bt-molde {
+  background-color: var(--bt-molde);
+  color: var(--bt-molde-ink);
+  background-image: radial-gradient(var(--bt-molde-dot) 1px, transparent 1.2px);
+  background-size: 16px 16px;
+  box-shadow: 0 30px 70px -20px rgba(40, 5, 15, 0.55), 0 2px 0 rgba(0, 0, 0, 0.05);
+}
+.bt-molde-meta {
+  font: 700 9.5px/1 var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bt-molde-meta);
+}
+.bt-stitch-line {
+  fill: none;
+  stroke: #B3134F;
+  stroke-width: 1.6;
+  stroke-dasharray: 7 6;
+  stroke-linecap: round;
+}
+.dark .bt-stitch-line { stroke: #F0749D; }
+.bt-stitch-reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: bt-stitch-reveal 1.2s cubic-bezier(.55, .1, .35, 1) .25s forwards;
+}
+@keyframes bt-stitch-reveal { to { stroke-dashoffset: 0; } }
+.bt-molde-notch {
+  fill: var(--bt-brand);
+  opacity: 0.55;
+}
+.bt-molde-needle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 34px;
+  height: 10px;
+  margin: -5px 0 0 -30px;
+  offset-rotate: auto;
+  offset-anchor: 30px 5px;
+  animation:
+    bt-molde-needle 1.2s cubic-bezier(.55, .1, .35, 1) .25s forwards,
+    bt-molde-needle-out .3s ease 1.5s forwards;
+  opacity: 1;
+  z-index: 3;
+}
+@keyframes bt-molde-needle {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+@keyframes bt-molde-needle-out { to { opacity: 0; } }
+
+/* LoginCard — campos, etiqueta e links (Login.dc.html) */
+.bt-l-label {
+  display: block;
+  margin-bottom: 6px;
+  font: 700 13px var(--font-sans);
+  letter-spacing: 0.02em;
+}
+.bt-l-muted { color: #6B5A52; }
+.dark .bt-l-muted { color: #B5A69B; }
+.bt-l-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--bt-brand-text);
+  font: 600 14px var(--font-sans);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.bt-l-err-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 12px;
+  font: 500 14px/1.35 var(--font-sans);
+  color: var(--bt-danger-text);
+}
+.bt-lfield { position: relative; }
+.bt-lfield::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1.5px dashed #B3134F;
+  border-radius: 14px;
+  clip-path: inset(0 50% 0 50%);
+  opacity: 0;
+  transition: clip-path .45s cubic-bezier(.5, 0, .3, 1), opacity .1s;
+  pointer-events: none;
+}
+.dark .bt-lfield::after { border-color: #F0749D; }
+.bt-lfield:focus-within::after {
+  clip-path: inset(0 0 0 0);
+  opacity: 1;
+}
+.bt-lfield-input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm, 10px);
+  border: 1.5px solid #D5C5B0;
+  background: #FFFDF9;
+  color: #2B1F1D;
+  font: 500 15px var(--font-sans);
+  outline: none;
+}
+.dark .bt-lfield-input {
+  background: #221A18;
+  border-color: #54443E;
+  color: #F6EEE6;
+}
+.bt-lfield-input:focus {
+  border-color: #B3134F;
+  box-shadow: none;
+}
+.dark .bt-lfield-input:focus { border-color: #F0749D; }
+.bt-lfield.is-err .bt-lfield-input {
+  border-color: transparent;
+  animation: bt-lfield-fray .45s ease;
+}
+.bt-lfield-err-box {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--bt-danger);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+.bt-lfield-fray {
+  display: none;
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -9px;
+  height: 16px;
+  pointer-events: none;
+}
+.bt-lfield.is-err .bt-lfield-fray { display: block; }
+.bt-lfield-fray path {
+  fill: none;
+  stroke: var(--bt-danger);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+@keyframes bt-lfield-fray {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+.bt-tagwrap {
+  position: relative;
+  display: block;
+  transform-origin: 28px 50%;
+}
+.bt-tagwrap:hover { animation: bt-tag-swing 1.1s ease-in-out; }
+@keyframes bt-tag-swing {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-2.4deg); }
+  55% { transform: rotate(1.6deg); }
+  80% { transform: rotate(-0.6deg); }
+  100% { transform: rotate(0); }
+}
+.bt-tagbtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 58px;
+  padding: 0 24px 0 52px;
+  border: 0;
+  background: #B3134F;
+  color: #FFF4EA;
+  font: 700 18px/1 var(--font-display);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  clip-path: polygon(26px 0, 100% 0, 100% 100%, 26px 100%, 0 50%);
+  border-radius: 0 10px 10px 0;
+  transition: background .2s;
+  text-decoration: none;
+}
+.bt-tagbtn:hover { background: #931040; }
+.bt-tagbtn:disabled { opacity: 0.55; cursor: not-allowed; }
+.dark .bt-tagbtn {
+  background: #F0749D;
+  color: #2A0814;
+}
+.dark .bt-tagbtn:hover { background: #F592B3; }
+.bt-tagbtn::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #FBF6EC;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.18);
+}
+.dark .bt-tagbtn::before { background: #2A211F; }
+.bt-tagbtn::after {
+  content: "";
+  position: absolute;
+  inset: 5px 6px 5px 40px;
+  border: 1.3px dashed rgba(255, 244, 234, 0.6);
+  border-radius: 0 6px 6px 0;
+  pointer-events: none;
+}
+.dark .bt-tagbtn::after { border-color: rgba(42, 8, 20, 0.45); }
+.bt-tag-cord {
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  width: 62px;
+  height: 40px;
+  margin-top: -30px;
+  pointer-events: none;
+  overflow: visible;
+}
+.bt-tag-cord path {
+  fill: none;
+  stroke: var(--bt-mostarda);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+/* ---------- PrintPage (A4) ---------- */
+@media print {
+  body * { visibility: hidden; }
+  .bt-print-preview,
+  .bt-print-preview *,
+  .bt-print-page,
+  .bt-print-page * { visibility: visible; }
+  .bt-print-preview,
+  .bt-print-preview-inner {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+  .bt-print-page {
+    position: relative;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+  .bt-print-page:last-child { break-after: auto; }
+  @page { size: A4; margin: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .skel { background: var(--bt-surface-2); }
+  .bt-stitch-reveal { stroke-dashoffset: 0; }
+  .bt-molde-needle { display: none; }
+}

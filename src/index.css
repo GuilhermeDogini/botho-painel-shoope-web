@@ -1,0 +1,70 @@
+/* Tema da Botho (tokens, Tailwind 4, modo escuro pela classe .dark no <html>) */
+@import "./styles/botho-theme.css";
+@import "tw-animate-css";
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/hanken-grotesk";
+
+/*
+ * Ponte para os primitivos do shadcn (components/primitives): as classes deles
+ * (bg-background, bg-primary, border-border, ring-ring…) passam a usar as cores da Botho.
+ * Atenção: na Botho "muted" é COR DE TEXTO (text-muted). Nos primitivos, troque bg-muted por bg-surface-2.
+ */
+@theme inline {
+  --color-background: var(--bt-bg);
+  --color-foreground: var(--bt-ink);
+  --color-card: var(--bt-surface);
+  --color-card-foreground: var(--bt-ink);
+  --color-popover: var(--bt-surface);
+  --color-popover-foreground: var(--bt-ink);
+  --color-primary: var(--bt-brand);
+  --color-primary-foreground: var(--bt-brand-ink);
+  --color-secondary: var(--bt-surface-2);
+  --color-secondary-foreground: var(--bt-ink);
+  --color-muted-foreground: var(--bt-muted);
+  --color-accent: var(--bt-surface-2);
+  --color-accent-foreground: var(--bt-ink);
+  --color-destructive: var(--bt-danger);
+  --color-border: var(--bt-line);
+  --color-input: var(--bt-line-2);
+  --color-ring: var(--bt-focus);
+}
+
+/*
+ * LEGADO: nomes de cor das telas antigas (components/legacy e pages/*). Saem quando as telas
+ * novas do design substituírem as antigas (SHP-74, SHP-96, SHP-97, SHP-105).
+ */
+@theme inline {
+  --color-page: var(--bt-bg);
+  --color-brand-dark: var(--bt-brand-hover);
+  --color-ok: var(--bt-salvia-text);
+  --color-ok-soft: var(--bt-salvia-soft);
+  --color-warn: var(--bt-mostarda-text);
+  --color-warn-soft: var(--bt-mostarda-soft);
+}
+
+@layer base {
+  body {
+    background: var(--bt-bg);
+    color: var(--bt-ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+  /* Campo numérico sem as setinhas (atrapalham no celular). */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+}

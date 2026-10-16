@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#B3134F">
+  <title>Botho Brasil · Painel</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%23B3134F'/%3E%3Ccircle cx='8' cy='5' r='2.2' fill='%23FFFDF9'/%3E%3Ccircle cx='5' cy='9' r='2.2' fill='%23FFFDF9'/%3E%3Ccircle cx='11' cy='9' r='2.2' fill='%23FFFDF9'/%3E%3Ccircle cx='8' cy='12' r='2.2' fill='%23FFFDF9'/%3E%3C/svg%3E">
+  <!-- Aplica o tema salvo antes da primeira pintura (sem piscar claro → escuro). Mesma regra de src/lib/theme.ts. -->
+  <script>
+    (function () {
+      var pref = 'auto';
+      try { pref = localStorage.getItem('botho:tema') || 'auto'; } catch (e) {}
+      var dark = pref === 'dark' || (pref === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+    })();
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
